@@ -1,0 +1,12 @@
+name: BossBarAnnouncer
+version: ${project.version}
+main: ca.masseyhacks.bossbarannouncer.BossBarAnnouncer
+api-version: '1.15'
+commands:
+  reloadbossbar:
+    description: Reloads boss bar message configuration.
+
+permissions:
+  masseyhacks.bossbar.reload:
+    description: Allows player to reload boss bar configuration.
+    default: op
