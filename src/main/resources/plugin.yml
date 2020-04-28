@@ -1,4 +1,5 @@
 name: BossBarAnnouncer
+author: David Hui
 version: ${project.version}
 main: ca.masseyhacks.bossbarannouncer.BossBarAnnouncer
 api-version: '1.15'

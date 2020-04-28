@@ -5,9 +5,6 @@ import ca.masseyhacks.bossbarannouncer.structures.BossBarMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.time.Instant;
-import java.util.UUID;
-
 public class AdvanceMessage extends BukkitRunnable {
     private final BossBarAnnouncer plugin;
 
