@@ -2,8 +2,9 @@ package ca.masseyhacks.bossbarannouncer.tasks;
 
 import ca.masseyhacks.bossbarannouncer.BossBarAnnouncer;
 import ca.masseyhacks.bossbarannouncer.structures.BossBarMessage;
-import org.bukkit.ChatColor;
+import ca.masseyhacks.bossbarannouncer.util.MessageManager;
 import org.bukkit.scheduler.BukkitRunnable;
+
 
 public class AdvanceMessage extends BukkitRunnable {
     private final BossBarAnnouncer plugin;
@@ -14,13 +15,16 @@ public class AdvanceMessage extends BukkitRunnable {
 
     @Override
     public void run() {
-        //System.out.println("Running cleanup task");
-        // cleans up the confirm tokens that are older than 30 seconds
-        plugin.messageManager.advanceBar();
+        // Go through all message managers and advance those that have players attached to them
+        for(MessageManager temp : plugin.playerBossBars.values()){
+            if(temp.bossBar.getPlayers().size() > 0){
+                temp.advanceBar();
 
-        BossBarMessage currentMessage = plugin.messageManager.getCurrentMessageObject();
-        plugin.bossBar.setTitle(ChatColor.translateAlternateColorCodes('&', currentMessage.barMessage));
-        plugin.bossBar.setColor(currentMessage.barColor);
-        plugin.bossBar.setStyle(currentMessage.barStyle);
+                BossBarMessage currentMessage = temp.getCurrentMessageObject();
+                temp.bossBar.setTitle(currentMessage.barMessage);
+                temp.bossBar.setColor(currentMessage.barColor);
+                temp.bossBar.setStyle(currentMessage.barStyle);
+            }
+        }
     }
 }

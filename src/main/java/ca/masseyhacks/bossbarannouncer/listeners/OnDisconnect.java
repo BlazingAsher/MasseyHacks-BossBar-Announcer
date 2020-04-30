@@ -16,6 +16,6 @@ public class OnDisconnect implements Listener {
     public void OnDisconnect(PlayerQuitEvent event){
         Player player = event.getPlayer();
 
-        plugin.bossBar.removePlayer(player);
+        plugin.playerBossBars.remove(player.getUniqueId());
     }
 }

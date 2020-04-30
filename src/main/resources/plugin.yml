@@ -4,7 +4,7 @@ version: ${project.version}
 main: ca.masseyhacks.bossbarannouncer.BossBarAnnouncer
 api-version: '1.15'
 commands:
-  reloadbossbar:
+  mhbossbar:
     description: Reloads boss bar message configuration.
 
 permissions:

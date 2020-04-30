@@ -1,5 +1,6 @@
 package ca.masseyhacks.bossbarannouncer.structures;
 
+import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 
@@ -11,6 +12,6 @@ public class BossBarMessage {
     public BossBarMessage(String barMessage, BarColor barColor, BarStyle barStyle){
         this.barColor = barColor;
         this.barStyle = barStyle;
-        this.barMessage = barMessage;
+        this.barMessage = ChatColor.translateAlternateColorCodes('&', barMessage);
     }
 }

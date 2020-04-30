@@ -3,6 +3,7 @@ package ca.masseyhacks.bossbarannouncer;
 import ca.masseyhacks.bossbarannouncer.commands.Reload;
 import ca.masseyhacks.bossbarannouncer.listeners.OnConnect;
 import ca.masseyhacks.bossbarannouncer.listeners.OnDisconnect;
+import ca.masseyhacks.bossbarannouncer.listeners.OnWorldChange;
 import ca.masseyhacks.bossbarannouncer.tasks.AdvanceMessage;
 import ca.masseyhacks.bossbarannouncer.util.MessageManager;
 import org.bukkit.boss.BossBar;
@@ -11,12 +12,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public final class BossBarAnnouncer extends JavaPlugin {
 
-    public BossBar bossBar;
-    public MessageManager messageManager;
+    //public BossBar bossBar;
+    //public MessageManager messageManager;
     private BukkitRunnable bgAdvanceBar;
+    public HashMap<UUID, MessageManager> playerBossBars;
 
     @Override
     public void onEnable() {
@@ -24,29 +28,36 @@ public final class BossBarAnnouncer extends JavaPlugin {
         FileConfiguration config = this.getConfig();
 
         ArrayList<String> defaultValues = new ArrayList<>();
-        defaultValues.add("Test!@!SOLID!@!WHITE");
+        defaultValues.add("Test,SOLID,WHITE");
 
         // Default config values
         config.addDefault("messages", defaultValues);
         config.addDefault("messageTime", 100);
+        config.addDefault("enabledWorlds", new ArrayList<String>());
 
         config.options().copyDefaults(true);
         saveConfig();
 
-        messageManager = new MessageManager(this, config.getStringList("messages"));
+        playerBossBars = new HashMap<>();
 
-        bossBar = getServer().createBossBar(messageManager.getCurrentMessageString(), messageManager.getCurrentMessageColor(), messageManager.getCurrentMessageStyle());
-        bossBar.setVisible(true);
-        bossBar.setProgress(1.0D);
+        // Load BossBar messages
+        MessageManager.replaceMessages(config.getStringList("messages"));
+
+        //messageManager = new MessageManager(this, config.getStringList("messages"));
+
+        //bossBar = getServer().createBossBar(messageManager.getCurrentMessageString(), messageManager.getCurrentMessageColor(), messageManager.getCurrentMessageStyle());
+        //bossBar.setVisible(true);
+        //bossBar.setProgress(1.0D);
 
         // Register commands
         getLogger().info("Registering commands.");
-        getCommand("reloadbossbar").setExecutor(new Reload(this));
+        getCommand("mhbossbar").setExecutor(new Reload(this));
 
         // Register event listeners
         getLogger().info("Registering event handlers.");
         getServer().getPluginManager().registerEvents(new OnConnect(this), this);
         getServer().getPluginManager().registerEvents(new OnDisconnect(this), this);
+        getServer().getPluginManager().registerEvents(new OnWorldChange(this), this);
 
         // Register background tasks
         getLogger().info("Registering background tasks.");
