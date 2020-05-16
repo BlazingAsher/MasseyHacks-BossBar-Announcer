@@ -1,6 +1,7 @@
 package ca.masseyhacks.bossbarannouncer.listeners;
 
 import ca.masseyhacks.bossbarannouncer.BossBarAnnouncer;
+import ca.masseyhacks.bossbarannouncer.util.MessageManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,10 +18,16 @@ public class OnWorldChange implements Listener {
         Player player = event.getPlayer();
 
         if(plugin.getConfig().getStringList("enabledWorlds").contains(player.getWorld().getName())){
-            plugin.playerBossBars.get(player.getUniqueId()).bossBar.addPlayer(player);
+            MessageManager temp = plugin.playerBossBars.get(player.getUniqueId());
+            if(temp != null){
+                temp.bossBar.addPlayer(player);
+            }
         }
         else{
-            plugin.playerBossBars.get(player.getUniqueId()).bossBar.removePlayer(player);
+            MessageManager temp = plugin.playerBossBars.get(player.getUniqueId());
+            if(temp != null){
+                temp.bossBar.removePlayer(player);
+            }
         }
     }
 }
